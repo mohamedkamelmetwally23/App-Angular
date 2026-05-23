@@ -1,0 +1,54 @@
+<div class="flex flex-wrap gap-6 mb-4">
+  @if (loading()) {
+    <div class="w-full text-center">
+      <span class="loading loading-dots loading-xl"></span>
+    </div>
+  } @else if (error()) {
+    <p>Something went wrong</p>
+    <p class="text-red-500">{{ error() }}</p>
+  } @else {
+    @for (course of filteredCourses(); track course?.id; let first = $first) {
+      <div
+        class="card w-100 shadow-sm transition-shadow hover:shadow-lg"
+        [ngStyle]="{
+          'background-color': course.seats <= 2 ? '#99a1af' : '#e5e7eb',
+        }"
+        [ngClass]="{ 'text-red-900': course.seats == 0 }"
+      >
+        <figure class="h-50">
+          <img [src]="course?.image" alt="{{ course.title }} image" class="w-full object-contain" />
+        </figure>
+        <div class="card-body">
+          <h2 class="card-title">{{ course.title }}</h2>
+          <p>Instructor: {{ course.instructor }}</p>
+
+          <p>Price: {{ course.price | discount: discountRate | currency: 'EUR' }}</p>
+
+          @if (course.seats === 0) {
+            <p class="text-red-900 font-bold">Course Full</p>
+          } @else if (course.seats <= 2) {
+            <p>Seats Available: {{ course.seats }} Almost Full</p>
+          } @else {
+            <p>Seats Available: {{ course.seats }}</p>
+          }
+
+          <div class="card-actions justify-end">
+            <button
+              class="btn btn-primary disabled:bg-[#422ad5]/50 disabled:text-white"
+              (click)="enroll(course)"
+              [disabled]="course.seats === 0 || loadingEnrollment()"
+            >
+              Enroll
+            </button>
+            <button
+              class="btn btn-primary disabled:bg-[#422ad5]/50 disabled:text-white"
+              [routerLink]="['/course', course.id]"
+            >
+              Details
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

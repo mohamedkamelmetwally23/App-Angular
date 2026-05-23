@@ -1,0 +1,25 @@
+<div class="flex justify-between items-start">
+  <div>
+    <h1 class="text-4xl font-semibold mb-6">Courses</h1>
+
+    <h3 class="text-2xl font-semibold mb-5">Total Price: {{ orderPrice | currency: 'EUR' }}</h3>
+  </div>
+
+  <!-- Button to visit new course page -->
+  <button class="btn btn-primary" routerLink="/course/new">Add Course</button>
+</div>
+
+<div class="flex justify-end items-center gap-2 mb-4">
+  <label for="search" class="font-semibold text-gray-600">Filer by category:</label>
+  <select class="select" id="search" name="search" [(ngModel)]="selectedCateforyId">
+    <option disabled selected>Select category</option>
+
+    <option value="0">All</option>
+
+    @for (category of categories(); track category.id) {
+      <option [value]="category.id">{{ category.name }}</option>
+    }
+  </select>
+</div>
+
+<app-courses [sentCategoryId]="selectedCateforyId"></app-courses>

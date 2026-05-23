@@ -1,0 +1,42 @@
+<header>
+  <div class="navbar px-4 shadow-sm text-gray-900">
+    <h1 class="font-bold text-2xl">
+      <a routerLink="" class="text-decoration-none text-gray-900!">Student</a>
+    </h1>
+
+    <div class="mx-auto">
+      <ul class="flex gap-6">
+        <li>
+          <a routerLink="/home" routerLinkActive="text-orange-600" class="font-medium">Home</a>
+        </li>
+        <li>
+          <a routerLink="/about-us" routerLinkActive="text-orange-600" class="font-medium"
+            >About Us</a
+          >
+        </li>
+        <li>
+          <a routerLink="/contact-us" routerLinkActive="text-orange-600" class="font-medium"
+            >Contac Us</a
+          >
+        </li>
+        <li *ngIf="isLoggedIn">
+          <a routerLink="/order" routerLinkActive="text-orange-600" class="font-medium">Order</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex-none">
+      @if (isLoggedIn) {
+        <a
+          routerLink="/register"
+          routerLinkActive="text-orange-600"
+          class="font-medium"
+          (click)="logout()"
+          >Logout</a
+        >
+      } @else {
+        <a routerLink="/login" routerLinkActive="text-orange-600" class="font-medium">Login</a>
+      }
+    </div>
+  </div>
+</header>

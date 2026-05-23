@@ -1,0 +1,33 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mt-8 space-y-6">
+    <div class="flex flex-col gap-2">
+      <label class="text-[13px] sm:text-sm font-medium capitalize" for="email"> Email </label>
+      <input
+        #email
+        id="email"
+        name="email"
+        placeholder="name@company.com"
+        class="formInput ps-10"
+      />
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label class="text-[13px] sm:text-sm font-medium capitalize" for="password"> Password </label>
+      <input
+        #password
+        id="password"
+        name="password"
+        placeholder="•••••••••"
+        class="formInput ps-10"
+      />
+    </div>
+
+    <button
+      type="button"
+      class="w-full text-sm sm:text-lg py-3 px-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg cursor-pointer transition transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+      (click)="login()"
+    >
+      Sign In
+    </button>
+  </div>
+</div>

@@ -1,0 +1,175 @@
+<form
+  class="max-w-4xl mx-auto mt-8 space-y-6 px-3 sm:px-6 py-5 sm:py-8 bg-gray-300 rounded-lg"
+  #courseForm="ngForm"
+  (ngSubmit)="onSubmit()"
+>
+  <div class="flex flex-col gap-2">
+    <label class="text-[13px] sm:text-sm font-medium capitalize" for="title">Title</label>
+    <input
+      type="text"
+      name="title"
+      id="title"
+      [(ngModel)]="course.title"
+      placeholder="Enter a catchy title..."
+      class="formInput"
+      minlength="3"
+      maxlength="100"
+      [disabled]="loading()"
+      required
+      #titleInput="ngModel"
+    />
+    @if (titleInput.invalid && titleInput.touched) {
+      @if (titleInput.errors?.['required']) {
+        <p class="text-red-700 text-sm">Title is required</p>
+      } @else if (titleInput.errors?.['minlength']) {
+        <p class="text-red-700 text-sm">Title must be at least 3 characters</p>
+      } @else if (titleInput.errors?.['maxlength']) {
+        <p class="text-red-700 text-sm">Title must be less than 100 characters</p>
+      }
+    }
+  </div>
+
+  <!-- Instructor -->
+  <div class="flex flex-col gap-2">
+    <label class="text-[13px] sm:text-sm font-medium capitalize" for="instructor">Instructor</label>
+    <input
+      type="text"
+      name="instructor"
+      id="instructor"
+      [(ngModel)]="course.instructor"
+      placeholder="Enter instructor name..."
+      minlength="3"
+      maxlength="50"
+      class="formInput"
+      [disabled]="loading()"
+      required
+      #instructorInput="ngModel"
+    />
+    @if (instructorInput.invalid && instructorInput.touched) {
+      @if (instructorInput.errors?.['required']) {
+        <p class="text-red-700 text-sm">Instructor is required</p>
+      } @else if (instructorInput.errors?.['minlength']) {
+        <p class="text-red-700 text-sm">Instructor must be at least 3 characters</p>
+      } @else if (instructorInput.errors?.['maxlength']) {
+        <p class="text-red-700 text-sm">Instructor must be less than 50 characters</p>
+      }
+    }
+  </div>
+
+  <!-- Price -->
+  <div class="flex flex-col gap-2">
+    <label class="text-[13px] sm:text-sm font-medium capitalize" for="price">Price</label>
+    <input
+      type="number"
+      name="price"
+      id="price"
+      [(ngModel)]="course.price"
+      placeholder="Enter course price..."
+      min="0"
+      step="0.01"
+      max="9999"
+      class="formInput"
+      [disabled]="loading()"
+      required
+      #priceInput="ngModel"
+    />
+    @if (priceInput.invalid && priceInput.touched) {
+      @if (priceInput.errors?.['required']) {
+        <p class="text-red-700 text-sm">Price is required</p>
+      } @else if (priceInput.errors?.['min']) {
+        <p class="text-red-700 text-sm">Price must be 0 or more</p>
+      } @else if (priceInput.errors?.['max']) {
+        <p class="text-red-700 text-sm">Price must be less than 9999</p>
+      }
+    }
+  </div>
+
+  <!-- Seats -->
+  <div class="flex flex-col gap-2">
+    <label class="text-[13px] sm:text-sm font-medium capitalize" for="seats">Seats</label>
+    <input
+      type="number"
+      name="seats"
+      id="seats"
+      [(ngModel)]="course.seats"
+      placeholder="Enter number of seats..."
+      min="1"
+      max="500"
+      class="formInput"
+      [disabled]="loading()"
+      required
+      #seatsInput="ngModel"
+    />
+    @if (seatsInput.invalid && seatsInput.touched) {
+      @if (seatsInput.errors?.['required']) {
+        <p class="text-red-700 text-sm">Seats is required</p>
+      } @else if (seatsInput.errors?.['min']) {
+        <p class="text-red-700 text-sm">Seats must be at least 1</p>
+      } @else if (seatsInput.errors?.['max']) {
+        <p class="text-red-700 text-sm">Seats must be 500 or less</p>
+      }
+    }
+  </div>
+
+  <!-- Image -->
+  <div class="flex flex-col gap-2">
+    <label class="text-[13px] sm:text-sm font-medium capitalize" for="image">Image</label>
+    <input
+      type="text"
+      name="image"
+      id="image"
+      placeholder="Enter image URL..."
+      class="formInput"
+      pattern="^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg)|\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$"
+      [disabled]="loading()"
+      [(ngModel)]="course.image"
+      required
+      #imageInput="ngModel"
+    />
+    @if (imageInput.invalid && imageInput.touched) {
+      @if (imageInput.errors?.['required']) {
+        <p class="text-red-700 text-sm">Image URL is required</p>
+      } @else if (imageInput.errors?.['pattern']) {
+        <p class="text-red-700 text-sm">
+          Must be a valid image URL or path ending in png, jpg, webp...
+        </p>
+      }
+    }
+  </div>
+
+  <!-- Category -->
+  <div class="flex flex-col gap-2">
+    <label class="text-[13px] sm:text-sm font-medium capitalize" for="catId">Category</label>
+    <select
+      name="catId"
+      id="catId"
+      class="formInput cursor-pointer"
+      [(ngModel)]="course.catId"
+      [disabled]="loading()"
+      required
+      #catIdInput="ngModel"
+    >
+      <option value="" disabled selected>Select a category...</option>
+
+      @for (category of categories(); track category.id) {
+        <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+    @if (catIdInput.invalid && catIdInput.touched) {
+      <p class="text-red-700 text-sm">Category is required</p>
+    }
+  </div>
+
+  <!-- Submit -->
+  <button
+    type="submit"
+    class="btn btn-primary w-full disabled:bg-indigo-600 disabled:text-white disabled:opacity-50"
+    [disabled]="courseForm.invalid || loading()"
+  >
+    @if (loading()) {
+      {{ course.id ? 'Updating...' : 'Creating...' }}
+    } @else {
+      {{ course.id ? 'Update' : 'Create' }} Course
+    }
+  </button>
+</form>

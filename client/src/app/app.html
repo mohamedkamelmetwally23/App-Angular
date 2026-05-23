@@ -1,0 +1,14 @@
+<app-navbar></app-navbar>
+
+<main class="min-h-156">
+  <div class="container mx-auto py-8">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+
+<app-footer></app-footer>
+
+<lib-toastify-toast-container
+  [autoClose]="3000"
+  [newestOnTop]="true"
+></lib-toastify-toast-container>

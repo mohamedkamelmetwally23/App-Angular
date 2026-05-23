@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+@plugin "daisyui";
+
+@layer components {
+  .formInput {
+    @apply w-full text-sm sm:text-base px-4 py-3 bg-gray-200 border border-gray-400 rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition disabled:opacity-65;
+  }
+}
+
+.container {
+  width: 1400px;
+}
